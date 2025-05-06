@@ -17,6 +17,7 @@ struct Datasiswa {
 struct Dataguru {
     string nama;
     int npdn;
+    int npdn;
     string alamat;
     int lamaMengajar;
     string mapel[5];
@@ -73,6 +74,19 @@ void tampilSiswa() {
         }
     }
     
+    if (jumlahSiswa == 0)
+    {
+    cout<<"Data Siswa Belum Diinput\n";
+    cout<<"Silahkan Input Data Terlebih Dahulu\n";
+    } else {
+        cout << "\nData Siswa:\n";
+        for (int i = 0; i < jumlahSiswa; i++) {
+            cout << "Nama: " << sekolah.siswa[i].nama << " | No Absen: " << sekolah.siswa[i].noAbsen
+                 << " | NIS: " << sekolah.siswa[i].nis << " | NISN: " << sekolah.siswa[i].nisn
+                 << " | Kelas: " << sekolah.siswa[i].kelas << " | Alamat: " << sekolah.siswa[i].alamat << endl;
+        }
+    }
+    
 }
 
 void inputGuru() {
@@ -84,6 +98,7 @@ void inputGuru() {
         cout << "Nama: ";
         getline(cin, sekolah.guru[i].nama);
         cout << "NPDN: ";
+        cin>>sekolah.guru[i].npdn;
         cin>>sekolah.guru[i].npdn;
         cout << "Alamat: ";
         getline(cin, sekolah.guru[i].alamat);
@@ -98,6 +113,22 @@ void inputGuru() {
 }
 
 void tampilGuru() {
+    if (jumlahGuru == 0)
+    {
+    cout<<"Data Guru Belum Diinput\n";
+    cout<<"Silahkan Input Data Terlebih Dahulu\n";
+    } else {
+        cout << "\nData Guru:\n";
+        for (int i = 0; i < jumlahGuru; i++) {
+            cout << "Nama: " << sekolah.guru[i].nama << " | NPDN: " << sekolah.guru[i].npdn
+                 << " | Alamat: " << sekolah.guru[i].alamat << " | Lama Mengajar: " << sekolah.guru[i].lamaMengajar << " tahun" << endl;
+            cout << "Mata Pelajaran: ";
+            for (int j = 0; j < 3; j++) {
+                cout << sekolah.guru[i].mapel[j] << (j < 2 ? ", " : "");
+            }
+            cout << endl;
+        }
+    }
     if (jumlahGuru == 0)
     {
     cout<<"Data Guru Belum Diinput\n";
@@ -129,7 +160,11 @@ void cariSiswaSentinel(int jumlahSiswa, int nis) {
 }
 
 void cariGuruLinear(int jumlahGuru, int npdn) {
+void cariGuruLinear(int jumlahGuru, int npdn) {
     bool ditemukan = false;
+    for (int i = 0; i < jumlahGuru; i++) {
+        if (sekolah.guru[i].npdn == npdn) {
+            cout << "\nData Guru ditemukan: " << sekolah.guru[i].npdn << " dengan nama " << sekolah.guru[i].nama << endl;
     for (int i = 0; i < jumlahGuru; i++) {
         if (sekolah.guru[i].npdn == npdn) {
             cout << "\nData Guru ditemukan: " << sekolah.guru[i].npdn << " dengan nama " << sekolah.guru[i].nama << endl;
@@ -138,6 +173,7 @@ void cariGuruLinear(int jumlahGuru, int npdn) {
         }
     }
     if (!ditemukan)
+        cout << "\nData Guru tidak ditemukan!" << endl;
         cout << "\nData Guru tidak ditemukan!" << endl;
 }
 void menuInput(){
@@ -262,6 +298,7 @@ void mainMenu(){
     cout << "|1. Input Data  " << setw(35) << setfill(' ') << "|" << endl;
     cout << "|2. Output Data " << setw(35) << setfill(' ') << "|" << endl;
     cout << "|3. Cari Data   " << setw(35) << setfill(' ') << "|" << endl;
+    cout << "|3. Cari Data   " << setw(35) << setfill(' ') << "|" << endl;
     cout << "+" << setw(50) << setfill('=') << "+" << endl;
     cout << "Masukkan Pilihan Menu : ";
     cin >> menu;
@@ -273,9 +310,13 @@ void mainMenu(){
     }else if (menu == 3){
     menuCari();
     }else if (menu !=1 && menu !=2 && menu !=3){
+    }else if (menu == 3){
+    menuCari();
+    }else if (menu !=1 && menu !=2 && menu !=3){
     cout<<"Input yang anda masukkan salah"<<endl;
     system("pause");
     }
+    } while (menu !=1 && menu !=2 && menu !=3);
     } while (menu !=1 && menu !=2 && menu !=3);
 }
 
