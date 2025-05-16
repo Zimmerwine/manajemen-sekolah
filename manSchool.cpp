@@ -45,37 +45,45 @@ void inputSiswa() {
     cout << "Masukkan jumlah siswa: ";
     cin >> jumlahSiswa;
     cin.ignore();
+    Datasiswa* ptrSiswa = sekolah.siswa; 
+
     for (int i = 0; i < jumlahSiswa; i++) {
         cout << "\nData Siswa ke-" << i + 1 << ":\n";
         cout << "Nama: ";
-        getline(cin, sekolah.siswa[i].nama);
+        getline(cin, ptrSiswa[i].nama);
         cout << "No Absen: ";
-        cin >> sekolah.siswa[i].noAbsen;
+        cin >> ptrSiswa[i].noAbsen;
         cout << "NIS: ";
-        cin >> sekolah.siswa[i].nis;
+        cin >> ptrSiswa[i].nis;
         cout << "NISN: ";
-        cin >> sekolah.siswa[i].nisn;
+        cin >> ptrSiswa[i].nisn;
         cin.ignore();
         cout << "Kelas: ";
-        getline(cin, sekolah.siswa[i].kelas);
+        getline(cin, ptrSiswa[i].kelas);
         cout << "Alamat: ";
-        getline(cin, sekolah.siswa[i].alamat);
+        getline(cin, ptrSiswa[i].alamat);
     }
 }
 
+
 // Fungsi tampil data siswa
+void tampilSiswaRekursif(Datasiswa* siswa, int index, int total) {
+    if (index >= total) return;
+    cout << "Nama: " << siswa[index].nama << " | No Absen: " << siswa[index].noAbsen
+         << " | NIS: " << siswa[index].nis << " | NISN: " << siswa[index].nisn
+         << " | Kelas: " << siswa[index].kelas << " | Alamat: " << siswa[index].alamat << endl;
+    tampilSiswaRekursif(siswa, index + 1, total);
+}
+
 void tampilSiswa() {
     if (jumlahSiswa == 0) {
         cout << "Data Siswa Belum Diinput\nSilahkan Input Data Terlebih Dahulu\n";
     } else {
         cout << "\nData Siswa:\n";
-        for (int i = 0; i < jumlahSiswa; i++) {
-            cout << "Nama: " << sekolah.siswa[i].nama << " | No Absen: " << sekolah.siswa[i].noAbsen
-                 << " | NIS: " << sekolah.siswa[i].nis << " | NISN: " << sekolah.siswa[i].nisn
-                 << " | Kelas: " << sekolah.siswa[i].kelas << " | Alamat: " << sekolah.siswa[i].alamat << endl;
-        }
+        tampilSiswaRekursif(sekolah.siswa, 0, jumlahSiswa);
     }
 }
+
 
 // Fungsi input data guru
 void inputGuru() {
