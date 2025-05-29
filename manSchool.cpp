@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <sstream>
 #include <fstream>
 
 using namespace std;
@@ -22,7 +23,7 @@ struct Dataguru {
     string npdn;
     string alamat;
     string lamaMengajar;
-    string mapel[5];
+    string mapel;
 };
 
 struct Kelas {
@@ -40,8 +41,7 @@ struct Sekolah {
 
 Sekolah sekolah;
 
-void writeDataSiswa(fstream &file,Datasiswa &data, int &counter){
-    file << counter << ","; 
+void writeDataSiswa(fstream &file,Datasiswa &data){
     file<<data.nama << ",";
     file<<data.nisn << ",";
     file<<data.nis << ",";
@@ -50,31 +50,15 @@ void writeDataSiswa(fstream &file,Datasiswa &data, int &counter){
     file<<data.alamat << endl;
 }
 
-void writeJumlahSiswa(fstream &file, int &jumlahSiswa){
-    file.open("fileVariabel.txt",ios::in|ios::out);
-    file<<jumlahSiswa<<endl;
-    file.close();
-}
-
-// int readJumlahSiswa(fstream &file){
-//     int counter = 0;
-//     file.open("fileVariabel.txt",ios::in|ios::out|ios::app);
-//     file>>counter;
-//     file.close();
-//     return counter;
-// }
-
 // Fungsi input data siswa
-void inputSiswa(fstream &fileSiswa, fstream &fileVariabel, int &jumlahSiswa) {
+void inputSiswa(fstream &fileSiswa, int &jumlahSiswa) {
     int input;
-    int counter = 0;
     cout << "Masukkan jumlah siswa: ";
     cin >> input;
     cin.ignore();
     Datasiswa* ptrSiswa = sekolah.siswa; 
-    fileSiswa.open("fileSiswa.txt",ios::in|ios::out|ios::app);
+    fileSiswa.open("fileSiswa.txt",ios::out|ios::app);
     for (int i = jumlahSiswa; i < jumlahSiswa+input; i++) {
-        counter++;
         cout << "\nData Siswa ke-" << i + 1 << ":\n";
         cout << "Nama: ";
         getline(cin, ptrSiswa[i].nama);
@@ -88,27 +72,36 @@ void inputSiswa(fstream &fileSiswa, fstream &fileVariabel, int &jumlahSiswa) {
         getline(cin, ptrSiswa[i].kelas);
         cout << "Alamat: ";
         getline(cin, ptrSiswa[i].alamat);
-        writeDataSiswa(fileSiswa,ptrSiswa[i],counter);
+        writeDataSiswa(fileSiswa,ptrSiswa[i]);
     }
     fileSiswa.close();
-    jumlahSiswa+=input;
-    // writeJumlahSiswa(fileVariabel, jumlahSiswa);
 }
 
-int getJumlahSiswa(fstream &fileSiswa){
-
-
-    //baca counter
+int getJumlahSiswa(fstream &file){
+    string line;
+    int counter = 0;
+    file.open("fileSiswa.txt",ios::in);
+    while (getline(file,line))
+    {
+    counter++;
+    }
+    file.close();
+    return counter;
 }
 
 Datasiswa readDataSiswa(fstream &file, Datasiswa buffer){
-    getline(file,buffer.nama); //ganti jadi output file biasa
-    getline(file,buffer.nisn);
-    getline(file,buffer.nis);
-    getline(file,buffer.noAbsen);
-    getline(file,buffer.kelas);
-    getline(file,buffer.alamat);
-    return buffer;
+    string line;
+    while (getline(file,line))
+    {
+        stringstream ss(line);
+        getline(ss,buffer.nama,','); //ganti jadi output file biasa
+        getline(ss,buffer.nisn,',');
+        getline(ss,buffer.nis,',');
+        getline(ss,buffer.noAbsen,',');
+        getline(ss,buffer.kelas,',');
+        getline(ss,buffer.alamat,',');
+     return buffer;
+    }
 }
 
 // Fungsi tampil data siswa
@@ -131,46 +124,79 @@ void tampilSiswa(fstream &fileSiswa,int &jumlahSiswa) {
     }
 }
 
+Dataguru readDataGuru(fstream &file){
+        string line;
+        Dataguru buffer;
+        while (getline(file,line))
+        {
+        stringstream ss(line);
+        getline(ss,buffer.nama,',');
+        getline(ss,buffer.npdn,',');
+        getline(ss,buffer.alamat,',');
+        getline(ss,buffer.lamaMengajar,',');
+        getline(ss,buffer.mapel,',');
+        return buffer;
+    }
+}
+
+void writeDataGuru(fstream &file, Dataguru &data){
+    file<<data.nama<<",";
+    file<<data.npdn<<",";
+    file<<data.alamat<<",";
+    file<<data.lamaMengajar<<",";
+    file<<data.mapel<<endl;
+}
 
 // Fungsi input data guru
-void inputGuru(int &jumlahGuru) {
+void inputGuru(fstream &fileGuru,int &jumlahGuru) {
+    int input;
     cout << "Masukkan jumlah guru: ";
-    cin >> jumlahGuru;
+    cin >> input;
     cin.ignore();
-    for (int i = 0; i < jumlahGuru; i++) {
+    fileGuru.open("fileGuru.txt",ios::out|ios::app);
+    for (int i = jumlahGuru; i < jumlahGuru+input; i++) {
         cout << "\nData Guru ke-" << i + 1 << ":\n";
         cout << "Nama: ";
         getline(cin, sekolah.guru[i].nama);
         cout << "NPDN: ";
-        cin >> sekolah.guru[i].npdn;
-        cin.ignore();
+        getline(cin>>ws,sekolah.guru[i].npdn);
         cout << "Alamat: ";
         getline(cin, sekolah.guru[i].alamat);
         cout << "Lama Mengajar (tahun): ";
-        cin >> sekolah.guru[i].lamaMengajar;
-        cin.ignore();
-        for (int j = 0; j < 3; j++) {
-            cout << "Mata Pelajaran " << j + 1 << ": ";
-            getline(cin, sekolah.guru[i].mapel[j]);
-        }
+        getline(cin>>ws,sekolah.guru[i].lamaMengajar);
+        cout << "Mata Pelajaran : ";
+        getline(cin, sekolah.guru[i].mapel);
+        writeDataGuru(fileGuru,sekolah.guru[i]);
     }
+    fileGuru.close();
 }
-int readDataGuru(){}
+
+int getJumlahGuru(fstream &file){
+    string line;
+    int counter = 0;
+    file.open("fileGuru.txt",ios::in);
+    while (getline(file,line))
+    {
+    counter++;
+    }
+    file.close();
+    return counter;
+}
 // Fungsi tampil data guru
-void tampilGuru(fstream &fileGuru) {
-    int jumlahGuru = readDataGuru();
+void tampilGuru(fstream &fileGuru, int &jumlahGuru) {
+    Dataguru output;
     if (jumlahGuru == 0) {
         cout << "Data Guru Belum Diinput\nSilahkan Input Data Terlebih Dahulu\n";
     } else {
         cout << "\nData Guru:\n";
-        for (int i = 0; i < jumlahGuru; i++) {
-            cout << "Nama: " << sekolah.guru[i].nama << " | NPDN: " << sekolah.guru[i].npdn
-                 << " | Alamat: " << sekolah.guru[i].alamat << " | Lama Mengajar: " << sekolah.guru[i].lamaMengajar << " tahun\n";
-            cout << "Mata Pelajaran: ";
-            for (int j = 0; j < 3; j++) {
-                cout << sekolah.guru[i].mapel[j] << (j < 2 ? ", " : "");
-            }
-            cout << endl;
+        for (int i = 0; i < jumlahGuru; i++)
+        {
+            output = readDataGuru(fileGuru);
+            cout<<"Nama : "<<output.nama
+                <<" Npdn : "<<output.npdn
+                <<" Alamat : "<<output.alamat
+                <<" Lama Mengajar : "<<output.lamaMengajar<<" Tahun"
+                <<" Mata Pelajaran : "<<output.mapel<<endl;
         }
     }
 }
@@ -216,7 +242,7 @@ void bubbleSortSiswa(int &jumlahSiswa) {
 }
 
 // Menu input
-void menuInput(fstream &fileSiswa, fstream &fileVariabel, int &jumlahSiswa, int &jumlahGuru) {
+void menuInput(fstream &fileSiswa,fstream &fileGuru,int &jumlahSiswa, int &jumlahGuru) {
     int menuInput;
     do {
         system("cls");
@@ -228,18 +254,21 @@ void menuInput(fstream &fileSiswa, fstream &fileVariabel, int &jumlahSiswa, int 
         cout << "|2. Data Guru   " << setw(35) << setfill(' ') << "|" << endl;
         cout << "+" << setw(50) << setfill('=') << "+" << endl;
         cout << "Masukkan Pilihan Menu : ";cin>>menuInput;
+        if (menuInput != 1 && menuInput != 2)
+        {
+          cout<<"Invalid Input"<<endl;
+          system("pause");
+        }
         switch (menuInput) {
-            case 1: inputSiswa(fileSiswa,fileVariabel, jumlahSiswa); break;
-            case 2: inputGuru(jumlahGuru); break;
-            default: cout << "Input yang anda masukkan salah\n"; system("pause"); break;
+            case 1: inputSiswa(fileSiswa, jumlahSiswa); break;
+            case 2: inputGuru(fileGuru,jumlahGuru); break;
         }
     } while (menuInput != 1 && menuInput != 2);
 }
 
 // Menu output
-void menuOutput(fstream &fileSiswa) {
+void menuOutput(fstream &fileSiswa,fstream &fileGuru,int &jumlahSiswa, int &jumlahGuru) {
     int menuOutput;
-    Datasiswa datas;
     do {
         system("cls");
         cout << "+" << setw(50) << setfill('=') << "+" << endl;
@@ -249,20 +278,22 @@ void menuOutput(fstream &fileSiswa) {
         cout << "+" << setw(50) << setfill('=') << "+" << endl;
         cout << "Masukkan Pilihan Menu : ";
         cin >> menuOutput;
+        if (menuOutput != 1 && menuOutput != 2 )
+        {
+            cout<<"Invalid Input"<<endl;
+            system("pause");
+        }
         switch (menuOutput) {
             case 1: 
             // bubbleSortSiswa();
             fileSiswa.open("fileSiswa.txt",ios::in);
-            int jumlahSiswa = getJumlahSiswa(fileSiswa);
             tampilSiswa(fileSiswa,jumlahSiswa);
             fileSiswa.close();
             break;
             case 2: 
-            fileSiswa.open("fileSiswa.txt",ios::in);
-            int jumlahSiswa = getJumlahSiswa(fileSiswa);
-            tampilSiswa(fileSiswa,jumlahSiswa);
-            fileSiswa.close();
-            default: cout << "Input yang anda masukkan salah\n"; system("pause"); break;
+            fileGuru.open("fileGuru.txt",ios::in);
+            tampilGuru(fileGuru,jumlahGuru);
+            fileGuru.close();
         }
     } while (menuOutput != 1 && menuOutput != 2);
 }
@@ -313,7 +344,7 @@ void menuCari(int &jumlahSiswa,int &jumlahGuru) {
 }
 
 // Menu utama
-void mainMenu(fstream &fileSiswa) {
+void mainMenu(fstream &fileSiswa,fstream &fileGuru,int &jumlahSiswa, int &jumlahGuru) {
     int menu;
     do {
         system("cls");
@@ -328,11 +359,10 @@ void mainMenu(fstream &fileSiswa) {
         cout << "+" << setw(50) << setfill('=') << "+" << endl;
         cout << "Masukkan Pilihan Menu : ";
         cin >> menu;
-
         switch (menu) {
-            case 1: menuInput(fileSiswa); break;
-            case 2: menuOutput(fileSiswa); break;
-            case 3: menuCari(); break;
+            case 1: menuInput(fileSiswa,fileGuru, jumlahSiswa, jumlahGuru); break;
+            case 2: menuOutput(fileSiswa,fileGuru, jumlahSiswa, jumlahGuru); break;
+            // case 3: menuCari(); break;
             case 4: cout << "Keluar dari program" << endl; exit(0);
             default: cout << "Input yang anda masukkan salah\n"; system("pause"); break;
         }
@@ -343,13 +373,11 @@ void mainMenu(fstream &fileSiswa) {
 int main() {
     string kembali;
     fstream fileSiswa;
-    // fstream fileVariabel;
-    // int jumlahSiswa = readJumlahSiswa(fileSiswa);
-    // cout<<jumlahSiswa<<endl;
-    // system("pause");
-    int jumlahGuru = 0;
+    fstream fileGuru;
     do {
-        mainMenu(fileSiswa);
+        int jumlahSiswa = getJumlahSiswa(fileSiswa);
+        int jumlahGuru = getJumlahGuru(fileGuru);
+        mainMenu(fileSiswa,fileGuru, jumlahSiswa, jumlahGuru);
         do {
             cout << "Kembali Ke Menu?(y/n) : ";
             getline(cin >> ws, kembali);
