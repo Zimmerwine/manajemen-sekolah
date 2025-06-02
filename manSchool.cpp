@@ -51,6 +51,7 @@ void inputDataSiswa(Datasiswa* &arraySiswa, int &kapasitas, int &jumlah_siswa, s
         cout << "Masukkan nisn: "; getline(cin >> ws, arraySiswa[jumlah_siswa].nisn);
         cout << "Masukkan kelas: "; getline(cin >> ws, arraySiswa[jumlah_siswa].kelas);
         cout << "Masukkan alamat: "; getline(cin >> ws, arraySiswa[jumlah_siswa].alamat);
+        cout << endl;
         jumlah_siswa++;
     }
     tambahDataSiswaKeFile(arraySiswa, jumlah_siswa, namaFileSiswa);
@@ -214,6 +215,7 @@ void inputDataGuru(Dataguru* &arrayGuru, int &kapasitas_guru, int &jumlah_guru, 
         cout << "Masukkan alamat: "; getline(cin >> ws, arrayGuru[jumlah_guru].alamat);
         cout << "Masukkan lama mengajar: "; getline(cin >> ws, arrayGuru[jumlah_guru].lamaMengajar);
         cout << "Masukkan mapel yang diampu: "; getline(cin >> ws, arrayGuru[jumlah_guru].mapel);
+        cout << endl;
         jumlah_guru++;
     }
     inputFileGuru(arrayGuru, jumlah_guru, namaFileGuru);
