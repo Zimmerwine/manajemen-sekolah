@@ -239,7 +239,9 @@ void cariGuruLinear(Dataguru* &arrayGuru, int jumlahGuru, string npdn) {
 void sortingGuru(Dataguru* &arrayGuru, int &jumlah_guru){
     for(int i = 0; i < jumlah_guru - 1; i++){
         for(int j = 0; j < jumlah_guru - i - 1; j++){
-            if(arrayGuru[j].npdn > arrayGuru[j + 1].npdn){
+            int npdn_j = stoi(arrayGuru[j].npdn);
+            int npdn_j1 = stoi(arrayGuru[j + 1].npdn);
+            if(npdn_j > npdn_j1){
                 swap(arrayGuru[j], arrayGuru[j+1]);
             }
         }
