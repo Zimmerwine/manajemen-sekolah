@@ -146,8 +146,8 @@ void bacaFileSiswa(Datasiswa* &arraySiswa, int &jumlah_siswa, int &kapasitas, st
     file.close();
     cout << "Data berhasil dibaca dari file." << endl;
 }
-// cari siswa sentinel search
-void cariSiswaSentinel(Datasiswa* &arraySiswa, int &jumlahSiswa, string nis) {
+// cari siswa Linear search
+void cariSiswaLinear(Datasiswa* &arraySiswa, int &jumlahSiswa, string nis) {
     for (int i = 0; i < jumlahSiswa; i++) {
     if (arraySiswa[i].nis == nis) {
         cout << "\nData Siswa ditemukan: " << arraySiswa[i].nama << " dari kelas " << arraySiswa[i].kelas << endl;
@@ -420,7 +420,7 @@ void menuCariSiswa(Datasiswa* &arraySiswa, int &jumlah_siswa) {
         cout << "+" << setw(50) << setfill('=') << "+" << endl;
         cout << "Masukkan NIS Siswa : ";
         cin >> inputnis;
-        cariSiswaSentinel(arraySiswa, jumlah_siswa, inputnis);
+        cariSiswaLinear(arraySiswa, jumlah_siswa, inputnis);
     }    
 }
 
