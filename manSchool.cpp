@@ -22,6 +22,8 @@ struct Dataguru {
     string mapel;
 };
 
+void tambahDataSiswaKeFile(Datasiswa* &arraySiswa, int &jumlah_siswa, string &namaFileSiswa);
+void inputFileGuru(Dataguru* &arrayGuru, int &jumlah_guru, string &namaFileGuru);
 //fungsi tambah panjang array siswa
 void addStudentLength(Datasiswa* &arr, int &kapasitas, int tambahan) {
     Datasiswa* temp = new Datasiswa[kapasitas + tambahan];
@@ -33,7 +35,7 @@ void addStudentLength(Datasiswa* &arr, int &kapasitas, int tambahan) {
     kapasitas += tambahan;
 }
 // fungsi input data siswa
-void inputDataSiswa(Datasiswa* &arraySiswa, int &kapasitas, int &jumlah_siswa){
+void inputDataSiswa(Datasiswa* &arraySiswa, int &kapasitas, int &jumlah_siswa, string &namaFileSiswa){
     int n;
     string temp;
     cout << "Masukkan jumlah siswa: ";
@@ -51,15 +53,15 @@ void inputDataSiswa(Datasiswa* &arraySiswa, int &kapasitas, int &jumlah_siswa){
         cout << "Masukkan alamat: "; getline(cin >> ws, arraySiswa[jumlah_siswa].alamat);
         jumlah_siswa++;
     }
+    tambahDataSiswaKeFile(arraySiswa, jumlah_siswa, namaFileSiswa);
 }
 //fungsi sorting siswa dgn bubblesort
 void sortingSiswa(Datasiswa* arraySiswa, int &jumlah_siswa){
     for(int i = 0; i < jumlah_siswa - 1; i++){
         for(int j = 0; j < jumlah_siswa - i - 1; j++){
-            if(arraySiswa[j].nis > arraySiswa[j + 1].nis){
-                // Datasiswa temp = arraySiswa[j];
-                // arraySiswa[j] = arraySiswa[j + 1];
-                // arraySiswa[j + 1] = temp;
+            int nis_j = stoi(arraySiswa[j].nis);
+            int nis_j1 = stoi(arraySiswa[j + 1].nis);
+            if(nis_j > nis_j1){
                 swap(arraySiswa[j], arraySiswa[j+1]);
             }
         }
@@ -197,7 +199,7 @@ void addTeacherLength(Dataguru* &arr, int &kapasitas_guru, int tambahan) {
     kapasitas_guru += tambahan;
 }
 // fungsi input data guru
-void inputDataGuru(Dataguru* &arrayGuru, int &kapasitas_guru, int &jumlah_guru){
+void inputDataGuru(Dataguru* &arrayGuru, int &kapasitas_guru, int &jumlah_guru, string &namaFileGuru){
     int n;
     string temp;
     cout << "Masukkan jumlah guru: ";
@@ -214,6 +216,7 @@ void inputDataGuru(Dataguru* &arrayGuru, int &kapasitas_guru, int &jumlah_guru){
         cout << "Masukkan mapel yang diampu: "; getline(cin >> ws, arrayGuru[jumlah_guru].mapel);
         jumlah_guru++;
     }
+    inputFileGuru(arrayGuru, jumlah_guru, namaFileGuru);
 }
 // menu cari guru
 void cariGuruLinear(Dataguru* &arrayGuru, int jumlahGuru, string npdn) {
@@ -233,9 +236,7 @@ void sortingGuru(Dataguru* &arrayGuru, int &jumlah_guru){
     for(int i = 0; i < jumlah_guru - 1; i++){
         for(int j = 0; j < jumlah_guru - i - 1; j++){
             if(arrayGuru[j].npdn > arrayGuru[j + 1].npdn){
-                Dataguru temp = arrayGuru[j];
-                arrayGuru[j] = arrayGuru[j + 1];
-                arrayGuru[j + 1] = temp;
+                swap(arrayGuru[j], arrayGuru[j+1]);
             }
         }
     }
@@ -347,7 +348,7 @@ void updateDataGuru(Dataguru* &arrayGuru, int &jumlah_guru, string &namaFileGuru
 }
 
 // menu input
-void menuInput(Datasiswa* &arraySiswa, int &kapasitas, int &jumlah_siswa, Dataguru* &arrayGuru, int &kapasitas_guru, int &jumlah_guru) {
+void menuInput(Datasiswa* &arraySiswa, int &kapasitas, int &jumlah_siswa, string &namaFileSiswa, Dataguru* &arrayGuru, int &kapasitas_guru, int &jumlah_guru, string &namaFileGuru) {
     int menuInput;
     do {
         system("cls");
@@ -365,8 +366,8 @@ void menuInput(Datasiswa* &arraySiswa, int &kapasitas, int &jumlah_siswa, Datagu
           system("pause");
         }
         switch (menuInput) {
-            case 1: inputDataSiswa(arraySiswa, kapasitas, jumlah_siswa); break;
-            case 2: inputDataGuru(arrayGuru, kapasitas_guru, jumlah_guru); break;
+            case 1: inputDataSiswa(arraySiswa, kapasitas, jumlah_siswa, namaFileSiswa); break;
+            case 2: inputDataGuru(arrayGuru, kapasitas_guru, jumlah_guru, namaFileGuru); break;
         }
     } while (menuInput != 1 && menuInput != 2);
 }
@@ -534,7 +535,7 @@ void mainMenu(Datasiswa* &arraySiswa, int &jumlah_siswa, int &kapasitas, string 
         cout << "Masukkan Pilihan Menu : ";
         cin >> menu;
         switch (menu) {
-            case 1: menuInput(arraySiswa, kapasitas, jumlah_siswa, arrayGuru, kapasitas_guru, jumlah_guru); break;
+            case 1: menuInput(arraySiswa, kapasitas, jumlah_siswa, namaFileSiswa, arrayGuru, kapasitas_guru, jumlah_guru, namaFileGuru); break;
             case 2: menuOutput(arraySiswa, kapasitas, jumlah_siswa, arrayGuru, kapasitas_guru, jumlah_guru); break;
             case 3: menuCari(arraySiswa, jumlah_siswa, arrayGuru, jumlah_guru); break;
             case 4: menuUpdate(arraySiswa, jumlah_siswa, namaFileSiswa, arrayGuru, jumlah_guru, namaFileGuru); break;
