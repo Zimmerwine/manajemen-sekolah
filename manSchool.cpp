@@ -187,7 +187,9 @@ void updateDataSiswa(Datasiswa* &arraySiswa, int &jumlah_siswa, string &namaFile
     if (!ditemukan) {
         cout << "Siswa dengan NIS tersebut tidak ditemukan." << endl;;
     }
+    
 }
+
 //----------------------------------------------------------------------------------------------------------------//
 //fungsi tambah panjang array guru
 void addTeacherLength(Dataguru* &arr, int &kapasitas_guru, int tambahan) {
@@ -245,8 +247,11 @@ void sortingGuru(Dataguru* &arrayGuru, int &jumlah_guru){
 }
 // output data guru
 void outputDataGuru(Dataguru* &arrayGuru, int &jumlah_guru){
-    sortingGuru(arrayGuru, jumlah_guru);
-    for(int i = 0; i < jumlah_guru; i++){
+    if (jumlah_guru == 0) {
+        cout << "Data Guru Belum Diinput\nSilahkan Input Data Terlebih Dahulu\n";
+    } else {
+        sortingGuru(arrayGuru, jumlah_guru);
+        for(int i = 0; i < jumlah_guru; i++){
         cout << "Nama guru: " << arrayGuru[i].nama << endl;
         cout << "NPDN guru: " << arrayGuru[i].npdn << endl;
         cout << "Alamat: " << arrayGuru[i].alamat << endl;
@@ -254,6 +259,8 @@ void outputDataGuru(Dataguru* &arrayGuru, int &jumlah_guru){
         cout << "Mapel: " << arrayGuru[i].mapel << endl;
         cout << endl;
     }
+    }
+    
 }
 // input data file guru
 void inputFileGuru(Dataguru* &arrayGuru, int &jumlah_guru, string &namaFileGuru){
@@ -381,7 +388,8 @@ void menuOutput(Datasiswa* &arraySiswa, int &kapasitas, int &jumlah_siswa, Datag
         cout << "+" << setw(50) << setfill('=') << "+" << endl;
         cout << "|" << setw(33) << setfill(' ') << "MENU OUTPUT DATA" << setw(17) << "|" << endl;
         cout << "+" << setw(50) << setfill('=') << "+" << endl;
-        cout << "|1. Data Siswa  |\n|2. Data Guru   |\n";
+        cout << "|1. Data Siswa "<<setw(36)<<right<<setfill(' ')<<"|"<<endl;
+        cout << "|2. Data Guru  "<<setw(36)<<right<<setfill(' ')<<"|"<<endl;
         cout << "+" << setw(50) << setfill('=') << "+" << endl;
         cout << "Masukkan Pilihan Menu : ";
         cin >> menuoutput;
@@ -398,18 +406,29 @@ void menuOutput(Datasiswa* &arraySiswa, int &kapasitas, int &jumlah_siswa, Datag
 // menu cari siswa
 void menuCariSiswa(Datasiswa* &arraySiswa, int &jumlah_siswa) {
     string inputnis;
-    system("cls");
-    cout << "+" << setw(50) << setfill('=') << "+" << endl;
-    cout << "|" << setw(33) << setfill(' ') << "MENU PENCARIAN DATA SISWA" << setw(17) << "|" << endl;
-    cout << "+" << setw(50) << setfill('=') << "+" << endl;
-    cout << "Masukkan NIS Siswa : ";
-    cin >> inputnis;
-    cariSiswaSentinel(arraySiswa, jumlah_siswa, inputnis);
+    if (jumlah_siswa == 0)
+    {
+        cout << "Data Siswa Belum Diinput\nSilahkan Input Data Terlebih Dahulu\n";
+    }
+    else
+    {
+        system("cls");
+        cout << "+" << setw(50) << setfill('=') << "+" << endl;
+        cout << "|" << setw(33) << setfill(' ') << "MENU PENCARIAN DATA SISWA" << setw(17) << "|" << endl;
+        cout << "+" << setw(50) << setfill('=') << "+" << endl;
+        cout << "Masukkan NIS Siswa : ";
+        cin >> inputnis;
+        cariSiswaSentinel(arraySiswa, jumlah_siswa, inputnis);
+    }    
 }
 
 // Menu cari guru
 void menuCariGuru(Dataguru* &arrayGuru, int &jumlah_guru) {
     string inputnpdn;
+        if (jumlah_guru== 0)
+    {
+        cout << "Data Guru Belum Diinput\nSilahkan Input Data Terlebih Dahulu\n";
+    } else {
     system("cls");
     cout << "+" << setw(50) << setfill('=') << "+" << endl;
     cout << "|" << setw(33) << setfill(' ') << "MENU PENCARIAN DATA GURU " << setw(17) << "|" << endl;
@@ -417,6 +436,7 @@ void menuCariGuru(Dataguru* &arrayGuru, int &jumlah_guru) {
     cout << "Masukkan NPDN Guru : ";
     cin >> inputnpdn;
     cariGuruLinear(arrayGuru, jumlah_guru, inputnpdn);
+    }
 }
 
 // Menu cari data
@@ -427,7 +447,8 @@ void menuCari(Datasiswa* &arraySiswa, int &jumlah_siswa, Dataguru* &arrayGuru, i
         cout << "+" << setw(50) << setfill('=') << "+" << endl;
         cout << "|" << setw(33) << setfill(' ') << "MENU PENCARIAN DATA" << setw(17) << "|" << endl;
         cout << "+" << setw(50) << setfill('=') << "+" << endl;
-        cout << "|1. Data Siswa  |\n|2. Data Guru   |\n";
+        cout << "|1. Data Siswa "<<setw(36)<<right<<setfill(' ')<<"|"<<endl;
+        cout << "|2. Data Guru  "<<setw(36)<<right<<setfill(' ')<<"|"<<endl;
         cout << "+" << setw(50) << setfill('=') << "+" << endl;
         cout << "Masukkan Pilihan Menu : ";
         cin >> menuCari;
@@ -441,21 +462,30 @@ void menuCari(Datasiswa* &arraySiswa, int &jumlah_siswa, Dataguru* &arrayGuru, i
 }
 // menu update siswa
 void menuUpdateSiswa(Datasiswa* &arraySiswa, int &jumlah_siswa, string &namaFileSiswa) {
-    system("cls");
-    cout << "+" << setw(50) << setfill('=') << "+" << endl;
-    cout << "|" << setw(33) << setfill(' ') << "MENU UPDATE DATA SISWA" << setw(17) << "|" << endl;
-    cout << "+" << setw(50) << setfill('=') << "+" << endl;
-    updateDataSiswa(arraySiswa, jumlah_siswa, namaFileSiswa);
-    system("pause");
+        if (jumlah_siswa == 0)
+    {
+        cout << "Data Siswa Belum Diinput\nSilahkan Input Data Terlebih Dahulu\n";
+    } else {
+        system("cls");
+        cout << "+" << setw(50) << setfill('=') << "+" << endl;
+        cout << "|" << setw(33) << setfill(' ') << "MENU UPDATE DATA SISWA" << setw(17) << "|" << endl;
+        cout << "+" << setw(50) << setfill('=') << "+" << endl;
+        updateDataSiswa(arraySiswa, jumlah_siswa, namaFileSiswa);
+    }
+   
 }
 // menu update guru 
 void menuUpdateGuru(Dataguru* &arrayGuru, int &jumlah_guru, string &namaFileGuru) {
+    if(jumlah_guru == 0)
+    {
+        cout << "Data Guru Belum Diinput\nSilahkan Input Data Terlebih Dahulu\n";
+    } else {
     system("cls");
     cout << "+" << setw(50) << setfill('=') << "+" << endl;
     cout << "|" << setw(33) << setfill(' ') << "MENU UPDATE DATA GURU" << setw(17) << "|" << endl;
     cout << "+" << setw(50) << setfill('=') << "+" << endl;
     updateDataGuru(arrayGuru, jumlah_guru, namaFileGuru);
-    system("pause");
+    }
 }
 //menu update
 void menuUpdate(Datasiswa* &arraySiswa, int &jumlah_siswa, string &namaFileSiswa, Dataguru* &arrayGuru, int &jumlah_guru, string &namaFileGuru){
@@ -465,7 +495,8 @@ void menuUpdate(Datasiswa* &arraySiswa, int &jumlah_siswa, string &namaFileSiswa
         cout << "+" << setw(50) << setfill('=') << "+" << endl;
         cout << "|" << setw(33) << setfill(' ') << "MENU UPDATE DATA" << setw(17) << "|" << endl;
         cout << "+" << setw(50) << setfill('=') << "+" << endl;
-        cout << "|1. Data Siswa  |\n|2. Data Guru   |\n";
+        cout << "|1. Data Siswa "<<setw(36)<<right<<setfill(' ')<<"|"<<endl;
+        cout << "|2. Data Guru  "<<setw(36)<<right<<setfill(' ')<<"|"<<endl;
         cout << "+" << setw(50) << setfill('=') << "+" << endl;
         cout << "Masukkan Pilihan Menu : ";
         cin >> menuupdate;
@@ -478,18 +509,27 @@ void menuUpdate(Datasiswa* &arraySiswa, int &jumlah_siswa, string &namaFileSiswa
 }
 // menu delete siswa
 void menuDeleteSiswa(Datasiswa* &arraySiswa, int &jumlah_siswa, string &namaFileSiswa) {
-    string nis;
-    system("cls");
-    cout << "+" << setw(50) << setfill('=') << "+" << endl;
-    cout << "|" << setw(33) << setfill(' ') << "MENU HAPUS DATA SISWA" << setw(17) << "|" << endl;
-    cout << "+" << setw(50) << setfill('=') << "+" << endl;
-    cout << "Masukkan NIS siswa yang ingin dihapus: ";
-    getline(cin >> ws, nis);
-    deleteSiswa(arraySiswa, jumlah_siswa, nis, namaFileSiswa);
-    system("pause");
+    if(jumlah_siswa == 0)
+    {
+        cout << "Data Guru Belum Diinput\nSilahkan Input Data Terlebih Dahulu\n";
+    } else {
+        string nis;
+        system("cls");
+        cout << "+" << setw(50) << setfill('=') << "+" << endl;
+        cout << "|" << setw(33) << setfill(' ') << "MENU HAPUS DATA SISWA" << setw(17) << "|" << endl;
+        cout << "+" << setw(50) << setfill('=') << "+" << endl;
+        cout << "Masukkan NIS siswa yang ingin dihapus: ";
+        getline(cin >> ws, nis);
+        deleteSiswa(arraySiswa, jumlah_siswa, nis, namaFileSiswa);
+    }
+
 }
 // menu delete guru
 void menuDeleteGuru(Dataguru* &arrayGuru, int &jumlah_guru, string &namaFileGuru) {
+    if(jumlah_guru == 0)
+    {
+        cout << "Data Guru Belum Diinput\nSilahkan Input Data Terlebih Dahulu\n";
+    } else {
     string npdn;
     system("cls");
     cout << "+" << setw(50) << setfill('=') << "+" << endl;
@@ -498,7 +538,7 @@ void menuDeleteGuru(Dataguru* &arrayGuru, int &jumlah_guru, string &namaFileGuru
     cout << "Masukkan NPDN guru yang ingin dihapus: ";
     getline(cin >> ws, npdn);
     deleteGuru(arrayGuru, jumlah_guru, npdn, namaFileGuru);
-    system("pause");
+    }
 }
 // menu delete
 void menuDelete(Datasiswa* &arraySiswa, int &jumlah_siswa, string &namaFileSiswa, Dataguru* &arrayGuru, int &jumlah_guru, string &namaFileGuru){
@@ -508,7 +548,8 @@ void menuDelete(Datasiswa* &arraySiswa, int &jumlah_siswa, string &namaFileSiswa
         cout << "+" << setw(50) << setfill('=') << "+" << endl;
         cout << "|" << setw(33) << setfill(' ') << "MENU DELETE DATA" << setw(17) << "|" << endl;
         cout << "+" << setw(50) << setfill('=') << "+" << endl;
-        cout << "|1. Data Siswa  |\n|2. Data Guru   |\n";
+        cout << "|1. Data Siswa "<<setw(36)<<right<<setfill(' ')<<"|"<<endl;
+        cout << "|2. Data Guru  "<<setw(36)<<right<<setfill(' ')<<"|"<<endl;
         cout << "+" << setw(50) << setfill('=') << "+" << endl;
         cout << "Masukkan Pilihan Menu : ";
         cin >> menudelete;
@@ -522,7 +563,9 @@ void menuDelete(Datasiswa* &arraySiswa, int &jumlah_siswa, string &namaFileSiswa
 // main menu
 void mainMenu(Datasiswa* &arraySiswa, int &jumlah_siswa, int &kapasitas, string &namaFileSiswa, Dataguru* &arrayGuru, int &jumlah_guru, int &kapasitas_guru, string &namaFileGuru){
     int menu;
+    string kembali;
     do {
+        system("cls");
         cout << "+" << setw(50) << setfill('=') << "+" << endl;
         cout << "|" << setw(32) << setfill(' ') << "MANAJEMEN SEKOLAH" << setw(18) << "|" << endl;
         cout << "+" << setw(50) << setfill('=') << "+" << endl;
@@ -530,9 +573,9 @@ void mainMenu(Datasiswa* &arraySiswa, int &jumlah_siswa, int &kapasitas, string 
         cout << "|1. Input Data  " << setw(35) << setfill(' ') << "|" << endl;
         cout << "|2. Output Data " << setw(35) << setfill(' ') << "|" << endl;
         cout << "|3. Cari Data   " << setw(35) << setfill(' ') << "|" << endl;
-        cout << "|4. Update Data   " << setw(35) << setfill(' ') << "|" << endl;
-        cout << "|5. Delete Data   " << setw(35) << setfill(' ') << "|" << endl;
-        cout << "|6. Keluar   " << setw(35) << setfill(' ') << "|" << endl;
+        cout << "|4. Update Data   " << setw(33) << setfill(' ') << "|" << endl;
+        cout << "|5. Delete Data   " << setw(33) << setfill(' ') << "|" << endl;
+        cout << "|6. Keluar   " << setw(38) << setfill(' ') << "|" << endl;
         cout << "+" << setw(50) << setfill('=') << "+" << endl;
         cout << "Masukkan Pilihan Menu : ";
         cin >> menu;
@@ -545,7 +588,15 @@ void mainMenu(Datasiswa* &arraySiswa, int &jumlah_siswa, int &kapasitas, string 
             case 6: cout << "Keluar dari program" << endl; exit(0);
             default: cout << "Input yang anda masukkan salah\n"; system("pause"); break;
         }
-    } while (menu != 6);
+            do {
+            cout << "Kembali Ke Menu?(y/n) : ";
+            getline(cin >> ws, kembali);
+            if (kembali != "n" && kembali != "N" && kembali != "y" && kembali != "Y") {
+                cout << "Input yang anda masukkan salah\n";
+                system("pause");
+            }
+        } while (kembali != "n" && kembali != "N" && kembali != "y" && kembali != "Y");
+    } while (kembali == "y" || kembali == "Y");
 }
 
 // Fungsi main
@@ -556,22 +607,11 @@ int main() {
     int jumlah_siswa = 0;
     int kapasitas_siswa = 2;
     int jumlah_guru = 0;
-    string kembali;
     Datasiswa* arraySiswa = new Datasiswa[kapasitas_siswa];
     Dataguru* arrayGuru = new Dataguru[kapasitas_guru];
     bacaFileSiswa(arraySiswa, jumlah_siswa, kapasitas_siswa, namaFileSiswa);
     bacaFileGuru(arrayGuru, jumlah_guru, kapasitas_guru, namaFileGuru);
-    do {
-        mainMenu(arraySiswa, jumlah_siswa, kapasitas_siswa, namaFileSiswa, arrayGuru, jumlah_guru, kapasitas_guru, namaFileGuru);
-        do {
-            cout << "Kembali Ke Menu?(y/n) : ";
-            getline(cin >> ws, kembali);
-            if (kembali != "n" && kembali != "N" && kembali != "y" && kembali != "Y") {
-                cout << "Input yang anda masukkan salah\n";
-                system("pause");
-            }
-        } while (kembali != "n" && kembali != "N" && kembali != "y" && kembali != "Y");
-    } while (kembali == "y" || kembali == "Y");
+    mainMenu(arraySiswa, jumlah_siswa, kapasitas_siswa, namaFileSiswa, arrayGuru, jumlah_guru, kapasitas_guru, namaFileGuru);
     delete[] arraySiswa;
     delete[] arrayGuru;
     return 0;
