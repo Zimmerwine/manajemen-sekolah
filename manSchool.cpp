@@ -4,6 +4,12 @@
 #include <sstream>
 #include <fstream>
 using namespace std;
+
+/**
+ * @author Zaka Ahmad Ghofari / 123240144
+ * @author Rizky Adde Rachmad / 123240150
+ */
+
 // Struct
 struct Datasiswa {
     string nama;
